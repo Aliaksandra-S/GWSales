@@ -46,27 +46,6 @@ public class ProductRepository : IProductRepository
         };
     }
 
-    /*
-    public async Task<GetProductModel?> GetByArticleNumber(string article)
-    {
-        var entity = await _context.Products.FirstOrDefaultAsync(x => x.ArticleNumber == article);
-
-        if (entity == null)
-        {
-            return null;
-        }
-
-        return new GetProductModel
-        {
-            ArticleNumber = entity.ArticleNumber,
-            ProductName = entity.ProductName,
-            WholesalePrice = entity.WholesalePrice,
-            RetailPrice = entity.RetailPrice,
-            UnitsInStock = entity.UnitsInStock,
-        };
-    }
-    */
-
     public async Task<GetProductModel?> GetByIdAsync(int id)
     {
         var entity = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == id);

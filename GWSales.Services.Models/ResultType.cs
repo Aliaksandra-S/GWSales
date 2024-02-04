@@ -3,10 +3,7 @@
 public enum ResultType
 {
     Success,
-    Created,
-    Updated,
-    Deleted,
     NotFound,
     ValidationError,
-    Failed
+    Failed,
 }
