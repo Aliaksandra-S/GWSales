@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GWSales.Data.Entities\GWSales.Data.Entities.csproj" />
     <ProjectReference Include="..\GWSales.Data.Interfaces\GWSales.Data.Interfaces.csproj" />
+    <ProjectReference Include="..\GWSales.Services.Models\GWSales.Services.Models.csproj" />
   </ItemGroup>
 
 </Project>

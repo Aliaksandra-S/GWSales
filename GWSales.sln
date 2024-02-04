@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.Services", "GWSales
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.Data.Entities", "GWSales.Data.Entities\GWSales.Data.Entities.csproj", "{1366E382-6571-4035-A393-8EFE171A6D62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GWSales.WebApi.Models", "GWSales.WebApi.Models\GWSales.WebApi.Models.csproj", "{FECEB2B9-B924-4884-A03B-185C55097070}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.WebApi.Models", "GWSales.WebApi.Models\GWSales.WebApi.Models.csproj", "{FECEB2B9-B924-4884-A03B-185C55097070}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GWSales.Services.Models", "GWSales.Services.Models\GWSales.Services.Models.csproj", "{B7B2C70B-82D8-4810-B4CC-EEA0C3DA4035}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{FECEB2B9-B924-4884-A03B-185C55097070}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FECEB2B9-B924-4884-A03B-185C55097070}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FECEB2B9-B924-4884-A03B-185C55097070}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7B2C70B-82D8-4810-B4CC-EEA0C3DA4035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7B2C70B-82D8-4810-B4CC-EEA0C3DA4035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7B2C70B-82D8-4810-B4CC-EEA0C3DA4035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7B2C70B-82D8-4810-B4CC-EEA0C3DA4035}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

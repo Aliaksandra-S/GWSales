@@ -2,5 +2,5 @@
 
 public class ProductListDto
 {
-    public IEnumerable<ProductDto> Products { get; set; }  
+    public IEnumerable<GetProductDto> Products { get; set; }  
 }
