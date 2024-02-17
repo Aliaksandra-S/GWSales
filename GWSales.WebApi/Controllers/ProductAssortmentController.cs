@@ -3,59 +3,58 @@ using GWSales.Services.Models;
 using GWSales.WebApi.Models.ProductAssortment;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GWSales.WebApi.Controllers
+namespace GWSales.WebApi.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ProductAssortmentController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductAssortmentController : ControllerBase
+    private readonly ILogger<ProductAssortmentController> _logger;
+    private readonly IProductService _productService;
+
+    public ProductAssortmentController(ILogger<ProductAssortmentController> logger, IProductService productService)
     {
-        private readonly ILogger<ProductAssortmentController> _logger;
-        private readonly IProductService _productService;
+        _logger = logger;
+        _productService = productService;
+    }
 
-        public ProductAssortmentController(ILogger<ProductAssortmentController> logger, IProductService productService)
+    [HttpPost]
+    [Route("Add")]
+    public async Task<IActionResult> AddProduct([FromBody] CreateProductDto productDto)
+    {
+        var result = await _productService.AddProductAsync(productDto);
+        
+        if (result.ResultType == ResultType.ValidationError)
         {
-            _logger = logger;
-            _productService = productService;
+            return BadRequest(result);
+        }
+        return Ok(result);
+    }
+
+    [HttpPost]
+    [Route("Edit")]
+    public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto productDto)
+    {
+        var result = await _productService.UpdateProductAsync(productDto);
+
+        if(result.ResultType == ResultType.NotFound)
+        {
+            return NotFound(result);
         }
 
-        [HttpPost]
-        [Route("Add")]
-        public async Task<IActionResult> AddProduct([FromBody] AddProductDto productDto)
+        if (result.ResultType == ResultType.ValidationError)
         {
-            var result = await _productService.AddProductAsync(productDto);
-            
-            if (result.ResultType == ResultType.ValidationError)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
+            return BadRequest(result);
         }
+        return Ok(result);
 
-        [HttpPost]
-        [Route("Edit")]
-        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto productDto)
-        {
-            var result = await _productService.UpdateProductAsync(productDto);
+    }
 
-            if(result.ResultType == ResultType.NotFound)
-            {
-                return NotFound(result);
-            }
-
-            if (result.ResultType == ResultType.ValidationError)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
-
-        }
-
-        [HttpPost]
-        [Route("GetAll")]
-        public async Task<IActionResult> GetAllProducts()
-        {
-            var result = await _productService.GetAllProductsAsync();
-            return Ok(result);
-        }
+    [HttpPost]
+    [Route("GetAll")]
+    public async Task<IActionResult> GetAllProducts()
+    {
+        var result = await _productService.GetAllProductsAsync();
+        return Ok(result);
     }
 }

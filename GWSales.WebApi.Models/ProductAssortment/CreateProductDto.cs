@@ -1,6 +1,6 @@
 ﻿namespace GWSales.WebApi.Models.ProductAssortment;
 
-public class AddProductDto
+public class CreateProductDto
 {
     public string ArticleNumber { get; set; }
     public string ProductName { get; set; }

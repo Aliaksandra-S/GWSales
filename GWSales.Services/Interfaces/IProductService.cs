@@ -7,7 +7,7 @@ namespace GWSales.Services;
 public interface IProductService
 {
     Task<CommandResult<ResultType, ProductListDto>> GetAllProductsAsync();
-    Task<CommandResult<ResultType, AddProductDto>> AddProductAsync(AddProductDto productDto);
+    Task<CommandResult<ResultType, GetProductDto>> AddProductAsync(CreateProductDto productDto);
     Task<CommandResult<ResultType, UpdateProductDto>> UpdateProductAsync(UpdateProductDto productDto);
 
 }

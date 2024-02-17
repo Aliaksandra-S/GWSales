@@ -58,6 +58,10 @@ public class SalesDbContext : DbContext
             .HasIndex(p => p.ArticleNumber)
             .IsUnique();
 
+        modelBuilder.Entity<SizeEntity>()
+            .HasIndex(p => p.SizeRuName)
+            .IsUnique();
+
         base.OnModelCreating(modelBuilder);
     }
 }

@@ -28,6 +28,7 @@ public class ProductRepository : IProductRepository
         return resultEntity.Entity;
  
     }
+
     public async Task<GetProductListModel> GetAllAsync()
     {
         var models = await _context.Products.Select(x => new GetProductModel
@@ -65,6 +66,7 @@ public class ProductRepository : IProductRepository
             UnitsInStock = entity.UnitsInStock,
         };
     }
+
     public async Task<ProductEntity?> UpdateAsync(UpdateProductModel model)
     {
         var entity = _context.Products.FirstOrDefault(x => x.ProductId == model.ProductId);
