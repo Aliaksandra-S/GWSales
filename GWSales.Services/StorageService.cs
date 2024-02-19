@@ -25,7 +25,7 @@ public class StorageService : IStorageService
     {
         var result = new CommandResult<ResultType, GetProductSizeShortDto>();
 
-        if (await _sizeRepository.GetSizeByIdAsync(addProductSizeDto.SizeId) == null)
+        if (await _sizeRepository.GetByIdAsync(addProductSizeDto.SizeId) == null)
         {
             result.ResultType = ResultType.NotFound;
             result.Messages?.Add("Size ID is not found.");
@@ -84,7 +84,6 @@ public class StorageService : IStorageService
 
     public async Task<CommandResult<ResultType, ProductSizesListDto>> GetSizesByProductIdAsync(int productId)
     {
-        //todo: productName не подтягивается
         var result = new CommandResult<ResultType, ProductSizesListDto>();
 
         var product = await _productRepository.GetByIdAsync(productId);
@@ -95,7 +94,7 @@ public class StorageService : IStorageService
             return result;
         }
 
-        var productSizesList = await _sizeRepository.GetByProductIdAsync(productId);
+        var productSizesList = await _sizeRepository.GetSizesByProductIdAsync(productId);
 
         var sizesDto = _mapper.Map<ProductSizesListDto>(productSizesList);
         sizesDto.ProductName = product.ProductName;

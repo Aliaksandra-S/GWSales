@@ -14,7 +14,7 @@ public class ProductSizeRepository: IProductSizeRepository
         _context = context;
     }
 
-    public async Task<GetProductSizeListModel?> GetByProductIdAsync(int productId)
+    public async Task<GetProductSizeListModel?> GetSizesByProductIdAsync(int productId)
     {
         var productSizes = await _context.ProductSizes.Where(x => x.ProductId == productId)
             .Join(_context.Sizes,
@@ -66,7 +66,7 @@ public class ProductSizeRepository: IProductSizeRepository
         return resultEntity.Entity;
     }
 
-    public async Task<SizeEntity?> GetSizeByIdAsync(int sizeId)
+    public async Task<SizeEntity?> GetByIdAsync(int sizeId)
     {
         return await _context.Sizes.FindAsync(sizeId);
     }
