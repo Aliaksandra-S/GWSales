@@ -1,10 +1,12 @@
 using GWSales.Services;
 using GWSales.Services.Models;
 using GWSales.WebApi.Models.ProductAssortment;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GWSales.WebApi.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ProductAssortmentController : ControllerBase

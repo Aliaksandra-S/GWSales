@@ -1,11 +1,13 @@
 ﻿using GWSales.Data.Entities.Customer;
 using GWSales.Data.Entities.Order;
 using GWSales.Data.Entities.Product;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GWSales.Data;
 
-public class SalesDbContext : DbContext
+public class SalesDbContext : IdentityDbContext<IdentityUser>
 {
     public SalesDbContext()
     {
