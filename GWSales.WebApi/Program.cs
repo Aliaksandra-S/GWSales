@@ -1,4 +1,5 @@
 using GWSales.Data;
+using GWSales.Data.Entities.User;
 using GWSales.Data.Interfaces;
 using GWSales.Data.Repositories;
 using GWSales.Services;
@@ -55,7 +56,7 @@ builder.Services.AddDbContext<SalesDbContext>(options =>
     options.EnableSensitiveDataLogging();
 });
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<UserEntity, IdentityRole>()
     .AddEntityFrameworkStores<SalesDbContext>()
     .AddDefaultTokenProviders();
 
@@ -80,9 +81,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
 builder.Services.AddScoped<IStorageService, StorageService>();
 

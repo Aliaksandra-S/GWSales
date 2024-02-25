@@ -2,8 +2,10 @@
 using GWSales.Data.Entities.Product;
 using GWSales.Services.Models.Product;
 using GWSales.Services.Models.Storage;
+using GWSales.Services.Models.User;
 using GWSales.WebApi.Models.ProductAssortment;
 using GWSales.WebApi.Models.Storage;
+using GWSales.WebApi.Models.User;
 
 namespace GWSales.Services.Maps;
 
@@ -11,6 +13,9 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        //User maps
+        CreateMap<RegisterUserDto, RegisterUserModel>();
+
         //Product maps
         CreateMap<ProductEntity, GetProductModel>();
 
@@ -37,6 +42,6 @@ public class MappingProfile : Profile
 
         CreateMap<GetProductSizeModel, GetProductSizeShortDto>();
 
-
+        
     }
 }

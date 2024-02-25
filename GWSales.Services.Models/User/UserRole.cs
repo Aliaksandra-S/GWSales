@@ -1,4 +1,4 @@
-﻿namespace GWSales.WebApi.Models.User;
+﻿namespace GWSales.Services.Models.User;
 
 public class UserRole
 {

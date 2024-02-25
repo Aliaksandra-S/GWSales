@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GWSales.WebApi.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin,User")]
 [ApiController]
 [Route("api/[controller]")]
 public class ProductAssortmentController : ControllerBase

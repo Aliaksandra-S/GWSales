@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GWSales.WebApi.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin,User")]
 [ApiController]
 [Route("api/[controller]")]
 public class StorageController : ControllerBase
@@ -21,7 +21,7 @@ public class StorageController : ControllerBase
     }
 
     [HttpPost]
-    [Route("Create")]
+    [Route("CreateSize")]
     public async Task<IActionResult> CreateSize([FromBody] CreateSizeDto sizeDto)
     {
         var result = await _storageService.CreateSizeAsync(sizeDto);
@@ -34,7 +34,7 @@ public class StorageController : ControllerBase
     }
 
     [HttpPost]
-    [Route("Add")]
+    [Route("AddProdSize")]
     public async Task<IActionResult> AddProductSize([FromBody] AddProductSizeDto productSizeDto)
     {
         var result = await _storageService.AddProductSizeAsync(productSizeDto);
@@ -49,7 +49,7 @@ public class StorageController : ControllerBase
     }
 
     [HttpPost]
-    [Route("GetSizes")]
+    [Route("GetSizesByProductId")]
     public async Task<IActionResult> GetSizesByProductId([FromBody] int productId)
     {
         var result = await _storageService.GetSizesByProductIdAsync(productId);
