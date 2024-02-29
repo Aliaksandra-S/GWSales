@@ -20,15 +20,15 @@ public class UserService : IUserService
     public async Task<CommandResult<ResultType, RegisterUserDto>> RegisterAdminAsync(RegisterUserDto adminDto)
     {
         var result = new CommandResult<ResultType, RegisterUserDto>();
-        var userExists = await _userRepository.FindUserByNameAsync(adminDto.Username);
+        //var userExists = await _userRepository.FindUserByNameAsync(adminDto.Username);
 
-        if (userExists != null)
-        {
-            result.ResultType = ResultType.Failed;
-            result.Messages?.Add("User already exists!");
+        //if (userExists != null)
+        //{
+        //    result.ResultType = ResultType.Failed;
+        //    result.Messages?.Add("User already exists!");
 
-            return result;
-        }
+        //    return result;
+        //}
 
         var model = _mapper.Map<RegisterUserModel>(adminDto);
         model.IsAdmin = true;
@@ -37,7 +37,7 @@ public class UserService : IUserService
         if (!createResult.Succeeded)
         {
             result.ResultType = ResultType.Failed;
-            result.Messages?.Add(createResult.ToString());
+            result.Messages?.AddRange(createResult.Errors.Select(x => x.Description).ToArray());
 
             return result;
         }
@@ -72,15 +72,15 @@ public class UserService : IUserService
     public async Task<CommandResult<ResultType, RegisterUserDto>> RegisterUserAsync(RegisterUserDto userDto)
     {
         var result = new CommandResult<ResultType, RegisterUserDto>();
-        var userExists = await _userRepository.FindUserByNameAsync(userDto.Username);
+        //var userExists = await _userRepository.FindUserByNameAsync(userDto.Username);
 
-        if (userExists != null)
-        {
-            result.ResultType = ResultType.Failed;
-            result.Messages?.Add("User already exists!");
+        //if (userExists != null)
+        //{
+        //    result.ResultType = ResultType.Failed;
+        //    result.Messages?.Add("User already exists!");
 
-            return result;
-        }
+        //    return result;
+        //}
 
         var model = _mapper.Map<RegisterUserModel>(userDto);
 
@@ -88,7 +88,7 @@ public class UserService : IUserService
         if (!createResult.Succeeded)
         {
             result.ResultType = ResultType.Failed;
-            result.Messages?.Add(createResult.ToString());
+            result.Messages?.AddRange(createResult.Errors.Select(x => x.Description).ToArray());
 
             return result;
         }
