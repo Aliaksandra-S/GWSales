@@ -2,6 +2,7 @@
 using GWSales.Data.Entities.Order;
 using GWSales.Data.Entities.Product;
 using GWSales.Data.Entities.User;
+using GWSales.Data.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,12 @@ public class SalesDbContext : IdentityDbContext<UserEntity>
         modelBuilder.Entity<SizeEntity>()
             .HasIndex(p => p.SizeRuName)
             .IsUnique();
+
+        modelBuilder.Entity<CustomerTypeEntity>()
+            .HasIndex(p => p.TypeName)
+            .IsUnique();
+
+        modelBuilder.SeedData();
 
         base.OnModelCreating(modelBuilder);
     }
