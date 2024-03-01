@@ -20,15 +20,27 @@ public class UserService : IUserService
     public async Task<CommandResult<ResultType, RegisterUserDto>> RegisterAdminAsync(RegisterUserDto adminDto)
     {
         var result = new CommandResult<ResultType, RegisterUserDto>();
-        //var userExists = await _userRepository.FindUserByNameAsync(adminDto.Username);
+        var hasAdminRole = await _userRepository.RoleExistsAsync(UserRole.Admin);
+        if (hasAdminRole)
+        {
+            if ((await _userRepository.GetUsersInRoleAsync(UserRole.Admin)).Any())
+            {
+                result.ResultType = ResultType.Failed;
+                result.Messages?.Add("Admin already exist!");
 
-        //if (userExists != null)
-        //{
-        //    result.ResultType = ResultType.Failed;
-        //    result.Messages?.Add("User already exists!");
+                return result;
+            }
+        }
+        else
+        {
+            await _userRepository.CreateRoleAsync(UserRole.Admin);
+        }
 
-        //    return result;
-        //}
+        var hasUserRole = await _userRepository.RoleExistsAsync(UserRole.User);
+        if (!hasUserRole)
+        {
+            await _userRepository.CreateRoleAsync(UserRole.User);
+        }
 
         var model = _mapper.Map<RegisterUserModel>(adminDto);
         model.IsAdmin = true;
@@ -42,27 +54,10 @@ public class UserService : IUserService
             return result;
         }
 
-        // todo: повторение поиска в нескольких местах
         var user = await _userRepository.FindUserByNameAsync(model.Username);
-
-        if (!await _userRepository.RoleExistsAsync(UserRole.Admin))
-        {
-            await _userRepository.CreateRoleAsync(UserRole.Admin);
-        }
-        if (!await _userRepository.RoleExistsAsync(UserRole.User))
-        {
-            await _userRepository.CreateRoleAsync(UserRole.User);
-        }
-
-        if (await _userRepository.RoleExistsAsync(UserRole.Admin))
-        {
-            await _userRepository.AddToRoleAsync(user, UserRole.Admin);
-        }
-        if (await _userRepository.RoleExistsAsync(UserRole.Admin))
-        {
-            await _userRepository.AddToRoleAsync(user, UserRole.User);
-        }
-
+        await _userRepository.AddToRoleAsync(user, UserRole.Admin);
+        await _userRepository.AddToRoleAsync(user, UserRole.User);
+       
         result.ResultType = ResultType.Success;
         result.Messages?.Add("User created successfuly");
 
@@ -72,16 +67,6 @@ public class UserService : IUserService
     public async Task<CommandResult<ResultType, RegisterUserDto>> RegisterUserAsync(RegisterUserDto userDto)
     {
         var result = new CommandResult<ResultType, RegisterUserDto>();
-        //var userExists = await _userRepository.FindUserByNameAsync(userDto.Username);
-
-        //if (userExists != null)
-        //{
-        //    result.ResultType = ResultType.Failed;
-        //    result.Messages?.Add("User already exists!");
-
-        //    return result;
-        //}
-
         var model = _mapper.Map<RegisterUserModel>(userDto);
 
         var createResult = await _userRepository.CreateUserAsync(model);

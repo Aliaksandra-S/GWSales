@@ -5,12 +5,14 @@ using GWSales.Data.Repositories;
 using GWSales.Services;
 using GWSales.Services.Interfaces;
 using GWSales.Services.Maps;
+using GWSales.WebApi.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -82,12 +84,17 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IStorageService, StorageService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
-builder.Services.AddScoped<IStorageService, StorageService>();
+
+
+var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("GWSales"));
+var serviceProvider = builder.Services.BuildServiceProvider();
+serviceProvider.ValidateDependencies(builder.Services, assemblies);
 
 var app = builder.Build();
 

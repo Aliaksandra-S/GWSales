@@ -67,4 +67,8 @@ public class UserRepository : IUserRepository
         return await _userManager.GetRolesAsync(user);
     }
 
+    public async Task<IList<UserEntity>> GetUsersInRoleAsync(string role)
+    {
+        return await _userManager.GetUsersInRoleAsync(role);
+    }
 }

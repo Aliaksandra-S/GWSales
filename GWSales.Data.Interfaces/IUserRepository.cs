@@ -15,4 +15,5 @@ public interface IUserRepository
     Task<bool> RoleExistsAsync(string role);
     Task<IdentityResult> AddToRoleAsync(UserEntity userModel, string role);
     Task<IList<string>> GetUserRolesAsync(UserEntity user);
+    Task<IList<UserEntity>> GetUsersInRoleAsync(string role);
 }

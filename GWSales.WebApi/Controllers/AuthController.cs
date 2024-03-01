@@ -14,7 +14,7 @@ namespace GWSales.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AuthController : Controller
+public class AuthController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly IUserService _userService;
@@ -86,6 +86,11 @@ public class AuthController : Controller
     [Route("register-admin")]
     public async Task<IActionResult> RegisterAdmin([FromBody] RegisterUserDto registerDto)
     {
+        if (!_configuration.GetValue<bool>("Features:EnableAdminRegistration"))
+        {
+            return Unauthorized();
+        }
+
         var result = await _userService.RegisterAdminAsync(registerDto);
 
         if (result.ResultType == ResultType.Failed)
