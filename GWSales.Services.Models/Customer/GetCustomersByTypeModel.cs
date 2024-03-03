@@ -2,5 +2,5 @@
 
 public class GetCustomersByTypeModel
 {
-    public string CustomerTypeName { get; set; }
+    public string TypeName { get; set; }
 }

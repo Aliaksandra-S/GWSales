@@ -77,9 +77,9 @@ public class CustomerRepository : ICustomerRepository
             }).FirstOrDefaultAsync();
     }
 
-    public async Task<GetCustomersListModel?> GetCustomersByType(GetCustomersByTypeModel model)
+    public async Task<GetCustomersListModel?> GetCustomersByTypeAsync(GetCustomersByTypeModel model)
     {
-        var customers =  await _context.CustomerTypes.Where(x => x.TypeName == model.CustomerTypeName)
+        var customers =  await _context.CustomerTypes.Where(x => x.TypeName == model.TypeName)
             .Join(_context.Customers,
             outer => outer.CustomerTypeId,
             inner => inner.CustomerTypeId,
@@ -102,7 +102,7 @@ public class CustomerRepository : ICustomerRepository
         };
     }
 
-    public async Task<GetCustomerTypeModel?> GetCustomerTypeAsync(int customerId)
+    public async Task<GetCustomerTypeModel?> GetCustomerTypeByCustomerIdAsync(int customerId)
     {
         var customerEntity = await _context.Customers.FindAsync(customerId);
         if (customerEntity == null)
@@ -138,5 +138,11 @@ public class CustomerRepository : ICustomerRepository
         await _context.SaveChangesAsync();
 
         return entity;
+    }
+
+    public async Task<CustomerTypeEntity?> FindCustomerTypeAsync(string typeName)
+    {
+        var entity = await _context.CustomerTypes.FirstOrDefaultAsync(x => x.TypeName == typeName);
+        return entity == null ? null : entity;
     }
 }

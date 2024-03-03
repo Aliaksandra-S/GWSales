@@ -5,14 +5,14 @@ namespace GWSales.WebApi.Extensions;
 public static class ServiceExtension
 {
     public static void ValidateDependencies(
-       this IServiceProvider rootServiceProvider,
+       this IServiceProvider serviceProvider,
        IServiceCollection services,
        IEnumerable<Assembly> assembliesToScan
    )
     {
         var exceptions = new List<string>();
 
-        using var scope = rootServiceProvider.CreateScope();
+        using var scope = serviceProvider.CreateScope();
         var sp = scope.ServiceProvider;
 
         foreach (var serviceDescriptor in services)
