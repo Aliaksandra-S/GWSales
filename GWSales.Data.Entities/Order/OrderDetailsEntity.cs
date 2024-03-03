@@ -13,6 +13,7 @@ public class OrderDetailsEntity
     public int Quantity { get; set; }
     public decimal Subtotal { get; set; }
     public decimal? AppliedDiscountPercentage { get; set; }
+    public string? Comment { get; set; }
 
     public OrderEntity Order { get; set; }
     public ProductSizeEntity ProductSize { get; set; }

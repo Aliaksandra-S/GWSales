@@ -9,8 +9,9 @@ public class CustomerEntity
     public int CustomerId { get; set; }
     public string Name { get; set; }
     public int CustomerTypeId { get; set; }
+    public int? DiscountId { get; set; }
 
     public CustomerTypeEntity CustomerType { get; set; }
-    public List<CustomerDiscountEntity> Discounts { get; set; }
-    public List<OrderEntity> Orders { get; set; }
+    public CustomerDiscountEntity? Discount { get; set; }
+    public List<OrderEntity>? Orders { get; set; }
 }

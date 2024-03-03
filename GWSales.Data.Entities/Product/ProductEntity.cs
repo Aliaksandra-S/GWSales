@@ -11,6 +11,7 @@ public class ProductEntity
     public decimal WholesalePrice { get; set; }
     public decimal RetailPrice { get; set; }
     public int UnitsInStock { get; set; }
+    public bool IsDeleted { get; set; }
 
-    public List<ProductSizeEntity> Sizes { get; set; }
+    public List<ProductSizeEntity>? Sizes { get; set; }
 }

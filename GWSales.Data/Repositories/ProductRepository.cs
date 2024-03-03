@@ -31,7 +31,9 @@ public class ProductRepository : IProductRepository
 
     public async Task<GetProductListModel> GetAllAsync()
     {
-        var models = await _context.Products.Select(x => new GetProductModel
+        var models = await _context.Products
+            .Where(x => !x.IsDeleted)
+            .Select(x => new GetProductModel
         {
             ProductId = x.ProductId,
             ArticleNumber = x.ArticleNumber,
@@ -51,7 +53,7 @@ public class ProductRepository : IProductRepository
     {
         var entity = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == id);
 
-        if (entity == null)
+        if (entity == null || entity.IsDeleted)
         {
             return null;
         }
@@ -71,7 +73,7 @@ public class ProductRepository : IProductRepository
     {
         var entity = _context.Products.FirstOrDefault(x => x.ProductId == model.ProductId);
 
-        if (entity == null)
+        if (entity == null || entity.IsDeleted)
         {
             return null;
         }
@@ -96,7 +98,7 @@ public class ProductRepository : IProductRepository
             return -1;
         }
 
-        _context.Entry(entity).State = EntityState.Deleted;
+        entity.IsDeleted = true;
         return await _context.SaveChangesAsync();
     }
    

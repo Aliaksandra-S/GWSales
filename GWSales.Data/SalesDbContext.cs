@@ -48,10 +48,10 @@ public class SalesDbContext : IdentityDbContext<UserEntity>
             .WithMany(ct => ct.Customers)
             .HasForeignKey(c => c.CustomerTypeId);
 
-        modelBuilder.Entity<CustomerDiscountEntity>()
-            .HasOne(cd => cd.Customer)
-            .WithMany(c => c.Discounts)
-            .HasForeignKey(cd => cd.CustomerId);
+        modelBuilder.Entity<CustomerEntity>()
+            .HasOne(cd => cd.Discount)
+            .WithMany(c => c.Customers)
+            .HasForeignKey(cd => cd.DiscountId);
 
         modelBuilder.Entity<ProductSizeEntity>()
             .HasOne(ps => ps.Product)

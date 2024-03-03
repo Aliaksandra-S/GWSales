@@ -9,10 +9,9 @@ public class OrderEntity
     public int OrderId { get; set; }
     public int CustomerId { get; set; }
     public int CustomerTypeId { get; set; }
-
-    //add CreatedAt
-    public DateTime OrderDate { get; set; }
+    public DateOnly OrderDate { get; set; }
     public decimal TotalAmount { get; set; }
+    public DateOnly CreatedOn { get; set; }
 
     public CustomerEntity Customer { get; set; }
     public CustomerTypeEntity CustomerType { get; set; }
