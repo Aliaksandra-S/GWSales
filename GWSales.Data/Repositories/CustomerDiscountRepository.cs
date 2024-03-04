@@ -49,8 +49,11 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
                 continue;
             }
 
-            customer.DiscountId = model.DiscountId;
+            customer.DiscountId = discount.DiscountId;
+            customer.Discount = discount;
+            discount.Customers?.Add(customer);
         }
+
 
         await _context.SaveChangesAsync();
 
@@ -60,8 +63,8 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
             {
                 CustomerId = x.CustomerId,
                 Name = x.Name,
-                CustomerTypeId = x.CustomerTypeId,
-                TypeName = x.CustomerType.TypeName,
+                //CustomerTypeId = x.CustomerTypeId,
+                //TypeName = x.CustomerType.TypeName,
             }).ToArray();
 
         return new GetDiscountWithCustomersModel
@@ -81,23 +84,26 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
     public async Task<GetDiscountModel?> GetCurrentCustomerDiscountAsync(int customerId)
     {
         var customer = await _context.Customers.FindAsync(customerId);
+            
         if (customer == null)
         {
             return null;
         }
 
-        if(customer.Discount == null)
+        if(customer.DiscountId == null)
         {
             return null;
         }
 
+        var discount = await _context.CustomerDiscounts.FindAsync(customer.DiscountId);
+        
         return new GetDiscountModel
         {
-            DiscountId = customer.Discount.DiscountId,
-            DiscountPercentage = customer.Discount.DiscountPercentage,
-            StartDate = customer.Discount.StartDate,
-            EndDate = customer.Discount.EndDate,
-            Comment = customer.Discount.Comment,
+            DiscountId = discount.DiscountId,
+            DiscountPercentage = discount.DiscountPercentage,
+            StartDate = discount.StartDate,
+            EndDate = discount.EndDate,
+            Comment = discount.Comment,
         };            
     }
 
@@ -110,6 +116,7 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
         }
 
         var discounts = await _context.CustomerDiscounts
+            .Include(c => c.Customers)
             .Where(x => x.Customers.Contains(customer))
             .Where(d => d.StartDate >= period.DateFrom && d.EndDate <= period.DateTo)
             .Select(x => new GetDiscountModel
