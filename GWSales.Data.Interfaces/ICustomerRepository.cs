@@ -6,9 +6,9 @@ namespace GWSales.Data.Interfaces;
 public interface ICustomerRepository
 {
     Task<CustomerEntity?> CreateCustomerAsync(CreateCustomerModel model);
-    Task<GetCustomersListModel?> GetAllCustomersAsync();
+    Task<GetCustomerListModel?> GetAllCustomersAsync();
     Task<GetCustomerModel?> GetCustomerByIdAsync(int id);
-    Task<GetCustomersListModel?> GetCustomersByTypeAsync(GetCustomersByTypeModel model); 
+    Task<GetCustomerListModel?> GetCustomersByTypeAsync(GetCustomersByTypeModel model); 
     Task<CustomerEntity?> UpdateCustomerAsync(UpdateCustomerModel model);
     Task<GetCustomerTypeModel?> GetCustomerTypeByCustomerIdAsync(int customerId);
     Task<CustomerTypeEntity?> CreateCustomerTypeAsync(string customerTypeName);

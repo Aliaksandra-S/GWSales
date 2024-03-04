@@ -4,5 +4,5 @@ public class UpdateCustomerModel
 {
     //todo maybe add discount info here 
     public int CustomerId { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }

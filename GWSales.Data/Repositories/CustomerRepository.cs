@@ -37,7 +37,7 @@ public class CustomerRepository : ICustomerRepository
         return resultEntity.Entity;
     }
 
-    public async Task<GetCustomersListModel?> GetAllCustomersAsync()
+    public async Task<GetCustomerListModel?> GetAllCustomersAsync()
     {
         var customersWithTypes = await _context.Customers
             .Join(_context.CustomerTypes,
@@ -56,7 +56,7 @@ public class CustomerRepository : ICustomerRepository
             return null;
         }
 
-        return new GetCustomersListModel
+        return new GetCustomerListModel
         {
             Customers = customersWithTypes,
         };
@@ -77,7 +77,7 @@ public class CustomerRepository : ICustomerRepository
             }).FirstOrDefaultAsync();
     }
 
-    public async Task<GetCustomersListModel?> GetCustomersByTypeAsync(GetCustomersByTypeModel model)
+    public async Task<GetCustomerListModel?> GetCustomersByTypeAsync(GetCustomersByTypeModel model)
     {
         var customers =  await _context.CustomerTypes.Where(x => x.TypeName == model.TypeName)
             .Join(_context.Customers,
@@ -96,7 +96,7 @@ public class CustomerRepository : ICustomerRepository
             return null;
         }
 
-        return new GetCustomersListModel
+        return new GetCustomerListModel
         {
             Customers = customers,
         };
@@ -133,7 +133,10 @@ public class CustomerRepository : ICustomerRepository
 
         _context.Customers.Attach(entity);
 
-        entity.Name = model.Name;
+        if (model.Name != null)
+        {
+            entity.Name = model.Name;
+        }
 
         await _context.SaveChangesAsync();
 

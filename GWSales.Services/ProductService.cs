@@ -77,15 +77,15 @@ public class ProductService : IProductService
     {
         var result = new CommandResult<ResultType, UpdateProductDto>();
 
-        if (string.IsNullOrWhiteSpace(productDto.ProductName))
+        if (productDto.ProductName != null && string.IsNullOrWhiteSpace(productDto.ProductName))
         {
             result.ResultType = ResultType.ValidationError;
             result.Messages?.Add("Product name is not valid.");
             return result;
         }
 
-        if (productDto.WholesalePrice <= 0
-            || productDto.RetailPrice <= 0)
+        if ((productDto.WholesalePrice != null && productDto.WholesalePrice <= 0)
+            || (productDto.RetailPrice != null && productDto.RetailPrice <= 0))
         {
             result.ResultType = ResultType.ValidationError;
             result.Messages?.Add("Price can't be 0 or less than 0.");
@@ -99,7 +99,7 @@ public class ProductService : IProductService
         if (entity == null)
         {
             result.ResultType = ResultType.NotFound;
-            result.Messages?.Add("id is not found");
+            result.Messages?.Add("Product doesn't exist");
             return result;
         }    
 

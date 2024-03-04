@@ -80,9 +80,20 @@ public class ProductRepository : IProductRepository
 
         _context.Products.Attach(entity);
 
-        entity.ProductName = model.ProductName;
-        entity.WholesalePrice = model.WholesalePrice;
-        entity.RetailPrice = model.RetailPrice;
+        if (model.ProductName != null)
+        {
+            entity.ProductName = model.ProductName;
+        }
+
+        if (model.WholesalePrice != null)
+        {
+            entity.WholesalePrice = (decimal)model.WholesalePrice;
+        }
+
+        if (model.RetailPrice != null)
+        {
+            entity.RetailPrice = (decimal)model.RetailPrice;
+        }
 
         await _context.SaveChangesAsync();
 

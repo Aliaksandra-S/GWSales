@@ -6,10 +6,12 @@ using GWSales.Services;
 using GWSales.Services.Interfaces;
 using GWSales.Services.Maps;
 using GWSales.WebApi.Extensions;
+using GWSales.WebApi.JsonConverter;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
@@ -21,7 +23,11 @@ configuration.AddJsonFile("appsettings.personal.json", false);
 // Add services to the container.
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+    x.JsonSerializerOptions.Converters.Add(new NullableDateOnlyJsonConverter());
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
@@ -49,6 +55,12 @@ builder.Services.AddSwaggerGen(c => {
             },
             new string[] {}
         }
+    });
+    c.MapType<DateOnly>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Format = "date",
+        Example = new OpenApiString(DateTime.Now.ToString("dd.MM.yyyy")),
     });
 });
 
@@ -87,14 +99,16 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStorageService, StorageService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IDiscountService, DiscountService>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerDiscountRepository, CustomerDiscountRepository>();
 
 
-var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("GWSales"));
+var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName != null && x.FullName.Contains("GWSales"));
 var serviceProvider = builder.Services.BuildServiceProvider();
 serviceProvider.ValidateDependencies(builder.Services, assemblies);
 
