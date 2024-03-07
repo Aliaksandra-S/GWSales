@@ -3,7 +3,7 @@
 public class UpdateDiscountModel
 {
     public int DiscountId { get; set; }
-    public decimal? DiscountPercentage { get; set; }
+    public decimal? DiscountRate { get; set; }
     public DateOnly? StartDate { get; set; }
     public DateOnly? EndDate { get; set; }
     public string? Comment { get; set; }

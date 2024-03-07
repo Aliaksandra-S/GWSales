@@ -4,7 +4,7 @@ namespace GWSales.Services.Extensions;
 
 public static class ValidationExtensions
 {
-    public static bool IsValidSize(this string input)
+    public static bool IsValidClotherSize(this string input)
     {
         // 42 or 40(186) is valid
         // 1 or 40(1) or 4(174) is not valid

@@ -60,7 +60,7 @@ public class StorageService : IStorageService
     {
         var result = new CommandResult<ResultType, GetSizeDto>();
 
-        if (!createSizeDto.SizeRuName.IsValidSize())
+        if (!createSizeDto.SizeRuName.IsValidClotherSize())
         {
             result.ResultType = ResultType.ValidationError;
             result.Messages?.Add("Size name is not valid.");

@@ -109,10 +109,9 @@ builder.Services.AddScoped<ICustomerDiscountRepository, CustomerDiscountReposito
 
 
 var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName != null && x.FullName.Contains("GWSales"));
-var serviceProvider = builder.Services.BuildServiceProvider();
-serviceProvider.ValidateDependencies(builder.Services, assemblies);
 
 var app = builder.Build();
+app.Services.ValidateDependencies(builder.Services, assemblies);
 
 // Configure the HTTP request pipeline.
 

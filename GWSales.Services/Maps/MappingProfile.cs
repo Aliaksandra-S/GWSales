@@ -65,7 +65,7 @@ public class MappingProfile : Profile
         
         CreateMap<UpdateDiscountDto, UpdateDiscountModel>();
 
-        CreateMap<CustomerDiscountEntity, GetDiscountDto>();
+        CreateMap<DiscountProgramEntity, GetDiscountDto>();
 
         CreateMap<GetDiscountModel, GetDiscountDto>();
 

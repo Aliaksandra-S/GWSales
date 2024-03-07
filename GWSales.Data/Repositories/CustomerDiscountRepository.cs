@@ -15,15 +15,15 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
         _context = context;
     }
 
-
-    public async Task<CustomerDiscountEntity?> CreateDiscountAsync(CreateDiscountModel discountModel)
+    
+    public async Task<DiscountProgramEntity?> CreateDiscountAsync(CreateDiscountModel discountModel)
     {
-        var entity = new CustomerDiscountEntity
+        var entity = new DiscountProgramEntity
         {
-            DiscountPercentage = discountModel.DiscountPercentage,
+            DiscountRate = discountModel.DiscountRate,
             StartDate = discountModel.StartDate,
             EndDate = discountModel.EndDate,
-            Comment = discountModel.Comment,
+            Comment = discountModel.Comment ?? "",
         };
 
         var resultEntity = await _context.CustomerDiscounts.AddAsync(entity);
@@ -32,9 +32,7 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
     }
 
     public async Task<GetDiscountWithCustomersModel?> ApplyDiscountToCustomersAsync(ApplyDiscountToCustomersModel model)
-    {
-        //var customers = new List<CustomerEntity>();
-        //todo проверить привяжется ли 
+    { 
         var discount = await _context.CustomerDiscounts.FindAsync(model.DiscountId);
         if (discount == null)
         {
@@ -70,7 +68,7 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
         return new GetDiscountWithCustomersModel
         {
             DiscountId = discount.DiscountId,
-            DiscountPercentage = discount.DiscountPercentage,
+            DiscountRate = discount.DiscountRate,
             StartDate = discount.StartDate,
             EndDate = discount.EndDate,
             Comment = discount.Comment,
@@ -100,7 +98,7 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
         return new GetDiscountModel
         {
             DiscountId = discount.DiscountId,
-            DiscountPercentage = discount.DiscountPercentage,
+            DiscountRate = discount.DiscountRate,
             StartDate = discount.StartDate,
             EndDate = discount.EndDate,
             Comment = discount.Comment,
@@ -122,7 +120,7 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
             .Select(x => new GetDiscountModel
             {
                 DiscountId = x.DiscountId,
-                DiscountPercentage = x.DiscountPercentage,
+                DiscountRate = x.DiscountRate,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
                 Comment = x.Comment,
@@ -134,7 +132,7 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
         };
     }
 
-    public async Task<CustomerDiscountEntity?> UpdateDiscountAsync(UpdateDiscountModel discountModel)
+    public async Task<DiscountProgramEntity?> UpdateDiscountAsync(UpdateDiscountModel discountModel)
     {
         var entity = await _context.CustomerDiscounts.FindAsync(discountModel.DiscountId);
         if (entity == null)
@@ -144,9 +142,9 @@ public class CustomerDiscountRepository : ICustomerDiscountRepository
 
         _context.CustomerDiscounts.Attach(entity);
 
-        if(discountModel.DiscountPercentage != null)
+        if(discountModel.DiscountRate != null)
         {
-            entity.DiscountPercentage = (decimal)discountModel.DiscountPercentage;
+            entity.DiscountRate = (decimal)discountModel.DiscountRate;
         }
 
         if (discountModel.StartDate != null)

@@ -11,7 +11,7 @@ public class OrderEntity
     public int CustomerTypeId { get; set; }
     public DateOnly OrderDate { get; set; }
     public decimal TotalAmount { get; set; }
-    public DateOnly CreatedOn { get; set; }
+    public DateTime CreatedAtUtc { get; set; }
 
     public CustomerEntity Customer { get; set; }
     public CustomerTypeEntity CustomerType { get; set; }

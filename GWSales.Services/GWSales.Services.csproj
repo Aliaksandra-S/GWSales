@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GWSales.Data.Interfaces\GWSales.Data.Interfaces.csproj" />
-    <ProjectReference Include="..\GWSales.Data\GWSales.Data.csproj" />
+    <ProjectReference Include="..\GWSales.Data\GWSales.Data.Npgsql.csproj" />
     <ProjectReference Include="..\GWSales.WebApi.Models\GWSales.WebApi.Models.csproj" />
   </ItemGroup>
 

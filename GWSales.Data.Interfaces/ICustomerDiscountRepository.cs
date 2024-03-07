@@ -5,9 +5,9 @@ namespace GWSales.Data.Interfaces;
 
 public interface ICustomerDiscountRepository
 {
-    Task<CustomerDiscountEntity?> CreateDiscountAsync(CreateDiscountModel discountModel);
+    Task<DiscountProgramEntity?> CreateDiscountAsync(CreateDiscountModel discountModel);
     Task<GetDiscountModel?> GetCurrentCustomerDiscountAsync(int customerId);
     Task<GetDiscountListModel?> GetCustomerDiscountsForPeriodAsync(DiscountPeriodModel period);
-    Task<CustomerDiscountEntity?> UpdateDiscountAsync(UpdateDiscountModel discountModel);
+    Task<DiscountProgramEntity?> UpdateDiscountAsync(UpdateDiscountModel discountModel);
     Task<GetDiscountWithCustomersModel?> ApplyDiscountToCustomersAsync(ApplyDiscountToCustomersModel model);
 }

@@ -12,6 +12,6 @@ public class CustomerEntity
     public int? DiscountId { get; set; }
 
     public CustomerTypeEntity CustomerType { get; set; }
-    public CustomerDiscountEntity? Discount { get; set; }
+    public DiscountProgramEntity? Discount { get; set; }
     public List<OrderEntity>? Orders { get; set; }
 }
