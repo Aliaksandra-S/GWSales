@@ -5,13 +5,13 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.WebApi", "GWSales.WebApi\GWSales.WebApi.csproj", "{CF0AAFCC-EF88-45BA-9F03-1C15CB08233F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.Data.Npgsql", "GWSales.Data\GWSales.Data.Npgsql.csproj", "{D0C60EA0-3A66-407D-9919-935B88AFF2C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.Data.Npgsql", "GWSales.Data.Npgsql\GWSales.Data.Npgsql.csproj", "{D0C60EA0-3A66-407D-9919-935B88AFF2C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.Data.Interfaces", "GWSales.Data.Interfaces\GWSales.Data.Interfaces.csproj", "{690F4303-2116-4493-B8EB-5F13A65C8760}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.Services", "GWSales.Services\GWSales.Services.csproj", "{764537C0-91B5-4ABC-8BE7-0C84BF335A1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.Data.Npgsql.Entities", "GWSales.Data.Entities\GWSales.Data.Npgsql.Entities.csproj", "{1366E382-6571-4035-A393-8EFE171A6D62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.Data.Npgsql.Entities", "GWSales.Data.Npgsql.Entities\GWSales.Data.Npgsql.Entities.csproj", "{1366E382-6571-4035-A393-8EFE171A6D62}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GWSales.WebApi.Models", "GWSales.WebApi.Models\GWSales.WebApi.Models.csproj", "{FECEB2B9-B924-4884-A03B-185C55097070}"
 EndProject

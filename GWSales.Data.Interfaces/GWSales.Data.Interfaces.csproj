@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GWSales.Data.Entities\GWSales.Data.Npgsql.Entities.csproj" />
+    <ProjectReference Include="..\GWSales.Data.Npgsql.Entities\GWSales.Data.Npgsql.Entities.csproj" />
     <ProjectReference Include="..\GWSales.Services.Models\GWSales.Services.Models.csproj" />
   </ItemGroup>
 

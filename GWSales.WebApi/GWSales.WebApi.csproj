@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GWSales.Data.Npgsql\GWSales.Data.Npgsql.csproj" />
     <ProjectReference Include="..\GWSales.Services\GWSales.Services.csproj" />
     <ProjectReference Include="..\GWSales.WebApi.Models\GWSales.WebApi.Models.csproj" />
   </ItemGroup>
