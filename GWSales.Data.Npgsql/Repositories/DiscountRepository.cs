@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GWSales.Data.Repositories;
 
-public class CustomerDiscountRepository : ICustomerDiscountRepository
+public class DiscountRepository : IDiscountRepository
 {
     private readonly SalesDbContext _context;
 
-    public CustomerDiscountRepository(SalesDbContext context)
+    public DiscountRepository(SalesDbContext context)
     {
         _context = context;
     }

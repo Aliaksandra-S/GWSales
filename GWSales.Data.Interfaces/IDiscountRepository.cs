@@ -3,7 +3,7 @@ using GWSales.Services.Models.Customer.Discount;
 
 namespace GWSales.Data.Interfaces;
 
-public interface ICustomerDiscountRepository
+public interface IDiscountRepository
 {
     Task<DiscountProgramEntity?> CreateDiscountAsync(CreateDiscountModel discountModel);
     Task<GetDiscountModel?> GetCurrentCustomerDiscountAsync(int customerId);

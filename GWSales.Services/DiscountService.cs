@@ -9,10 +9,10 @@ namespace GWSales.Services;
 
 public class DiscountService : IDiscountService
 {
-    private readonly ICustomerDiscountRepository _discountRepository;
+    private readonly IDiscountRepository _discountRepository;
     private readonly IMapper _mapper;
 
-    public DiscountService(ICustomerDiscountRepository discountRepository, IMapper mapper)
+    public DiscountService(IDiscountRepository discountRepository, IMapper mapper)
     {
         _discountRepository = discountRepository;
         _mapper = mapper;

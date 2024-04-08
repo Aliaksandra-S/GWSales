@@ -112,5 +112,28 @@ public class ProductRepository : IProductRepository
         entity.IsDeleted = true;
         return await _context.SaveChangesAsync();
     }
-   
+
+    public async Task<GetProductPriceListModel> GetPricesByProductIdAsync(GetPriceByCustomerTypeListModel models)
+    {
+        var result = new GetProductPriceListModel();
+
+        foreach (var model in models.ProductsWithCustomerTypes)
+        {
+            var price = await _context.Products
+                .Where(x => x.ProductId == model.ProductId)
+                .Select(x => new GetProductPriceModel
+                {
+                    ProductId = x.ProductId,
+                    Price = model.CustomerTypeId == 1 ? x.WholesalePrice : x.RetailPrice,
+                })
+                .FirstOrDefaultAsync();
+
+            if (price != null)
+            {
+                result.Prices.Add(price);
+            }
+        }
+
+        return result;
+    }
 }

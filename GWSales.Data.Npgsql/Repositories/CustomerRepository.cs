@@ -37,7 +37,7 @@ public class CustomerRepository : ICustomerRepository
         return resultEntity.Entity;
     }
 
-    public async Task<GetCustomerListModel?> GetAllCustomersAsync()
+    public async Task<GetCustomerListModel> GetAllCustomersAsync()
     {
         var customersWithTypes = await _context.Customers
             .Join(_context.CustomerTypes,
@@ -51,10 +51,10 @@ public class CustomerRepository : ICustomerRepository
                 TypeName = inner.TypeName,
             }).ToArrayAsync();
 
-        if (customersWithTypes == null)
-        {
-            return null;
-        }
+        //if (customersWithTypes == null)
+        //{
+        //    return null;
+        //}
 
         return new GetCustomerListModel
         {

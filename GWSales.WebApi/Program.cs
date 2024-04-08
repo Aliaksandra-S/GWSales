@@ -1,12 +1,14 @@
 using GWSales.Data;
 using GWSales.Data.Entities.User;
 using GWSales.Data.Interfaces;
+using GWSales.Data.Npgsql.Repositories;
 using GWSales.Data.Repositories;
 using GWSales.Services;
 using GWSales.Services.Interfaces;
 using GWSales.Services.Maps;
 using GWSales.WebApi.Extensions;
 using GWSales.WebApi.JsonConverter;
+using GWSales.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -100,12 +102,14 @@ builder.Services.AddScoped<IStorageService, StorageService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IDiscountService, DiscountService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<ICustomerDiscountRepository, CustomerDiscountRepository>();
+builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
 var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName != null && x.FullName.Contains("GWSales"));
@@ -114,6 +118,8 @@ var app = builder.Build();
 app.Services.ValidateDependencies(builder.Services, assemblies);
 
 // Configure the HTTP request pipeline.
+
+app.UseMiddleware<HundleDateOnlyConvertExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

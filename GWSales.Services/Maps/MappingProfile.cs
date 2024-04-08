@@ -3,11 +3,13 @@ using GWSales.Data.Entities.Customer;
 using GWSales.Data.Entities.Product;
 using GWSales.Services.Models.Customer;
 using GWSales.Services.Models.Customer.Discount;
+using GWSales.Services.Models.Order;
 using GWSales.Services.Models.Product;
 using GWSales.Services.Models.Storage;
 using GWSales.Services.Models.User;
 using GWSales.WebApi.Models.Customer;
 using GWSales.WebApi.Models.Customer.Discount;
+using GWSales.WebApi.Models.Order;
 using GWSales.WebApi.Models.ProductAssortment;
 using GWSales.WebApi.Models.Storage;
 using GWSales.WebApi.Models.User;
@@ -72,5 +74,24 @@ public class MappingProfile : Profile
         CreateMap<GetDiscountListModel, GetDiscountListDto>();
 
         CreateMap<DiscountPeriodDto, DiscountPeriodModel>();
+
+        //Order
+        CreateMap<CreateOrderDto, CreateOrderModel>();
+
+        CreateMap<CreateOrderDetailsDto, CreateOrderDetailsModel>();
+
+        CreateMap<CreateOrderDetailsListDto, CreateOrderDetailsListModel>();
+
+        CreateMap<GetOrderModel, GetOrderDto>();
+
+        CreateMap<GetOrderDetailsModel, GetOrderDetailsDto>();
+
+        CreateMap<GetOrderDetailsListModel, GetOrderDetailsListDto>();
+
+        CreateMap<OrderPeriodDto, OrderPeriodModel>();
+
+        CreateMap<UpdateOrderDetailsDto, UpdateOrderDetailsModel>();
+
+        CreateMap<ChangeOrderStatusDto, ChangeOrderStatusModel>();
     }
 }

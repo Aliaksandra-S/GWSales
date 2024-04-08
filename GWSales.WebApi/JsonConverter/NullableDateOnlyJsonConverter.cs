@@ -18,7 +18,7 @@ public sealed class NullableDateOnlyJsonConverter : JsonConverter<DateOnly?>
             return result;
         }
 
-        throw new JsonException("Unable to convert to DateOnly.");
+        throw new JsonException($"Unable to convert {dateString} to DateOnly.");
     }
 
     public override void Write(Utf8JsonWriter writer, DateOnly? value, JsonSerializerOptions options)

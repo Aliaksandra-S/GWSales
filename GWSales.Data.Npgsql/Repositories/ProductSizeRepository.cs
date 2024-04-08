@@ -73,7 +73,42 @@ public class ProductSizeRepository: IProductSizeRepository
 
     public async Task<SizeEntity?> GetSizeByNameAsync(string name)
     {
-        // todo: проверить работает ли с названием
         return await _context.Sizes.FindAsync(name);
+    }
+
+    public async Task<GetProductSizeModel?> GetProductSizeByProductAndSizeAsync(int productId, int sizeId)
+    {
+        var product = await _context.Products.FindAsync(productId);
+        if (product == null)
+        {
+            return null;
+        }
+
+        var size = await _context.Sizes.FindAsync(sizeId);
+        if (size == null)
+        {
+            return null;
+        }
+
+        return await _context.ProductSizes.Where(x => x.ProductId == productId && x.SizeId == sizeId)
+            .Select(x => new GetProductSizeModel
+            {
+                ProductSizeId = x.ProductSizeId,
+                Quantity = x.Quantity,
+            })
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<int> ChangeProductSizeQuantityAsync(ChangeProductSizeQuantityModel quantityModel)
+    {
+        var productSize = await _context.ProductSizes.FindAsync(quantityModel.ProductSizeId);
+        if (productSize == null)
+        {
+            return -1;
+        }
+
+        productSize.Quantity = quantityModel.NewQuantity;
+
+        return await _context.SaveChangesAsync();
     }
 }
