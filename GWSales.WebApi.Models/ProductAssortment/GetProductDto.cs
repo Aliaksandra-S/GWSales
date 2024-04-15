@@ -7,5 +7,4 @@ public class GetProductDto
     public string ProductName { get; set; }
     public decimal WholesalePrice { get; set; }
     public decimal RetailPrice { get; set; }
-    public int UnitsInStock { get; set; }
 }

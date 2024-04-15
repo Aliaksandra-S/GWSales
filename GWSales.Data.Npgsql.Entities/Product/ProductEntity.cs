@@ -10,7 +10,6 @@ public class ProductEntity
     public string ProductName { get; set; }
     public decimal WholesalePrice { get; set; }
     public decimal RetailPrice { get; set; }
-    public int UnitsInStock { get; set; }
     public bool IsDeleted { get; set; }
 
     public List<ProductSizeEntity>? Sizes { get; set; }

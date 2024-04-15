@@ -26,6 +26,8 @@ public class MappingProfile : Profile
         //Product maps
         CreateMap<ProductEntity, GetProductModel>();
 
+        CreateMap<ProductEntity, GetProductDto>();
+
         CreateMap<CreateProductDto, CreateProductModel>();
 
         CreateMap<UpdateProductDto, UpdateProductModel>();

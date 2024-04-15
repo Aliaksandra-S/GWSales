@@ -147,7 +147,7 @@ public class OrderService : IOrderService
             CustomerId = customer.CustomerId,
             OrderDate = createDto.OrderDate,
             OrderStatus = (int)OrderStatus.Created,
-            TotalAmount = totalAmount - (discountRate * 0.01m * totalAmount),
+            TotalAmount = totalAmount - (discountRate * totalAmount),
             CreatedAtUtc = DateTime.UtcNow,
 
             Details = new CreateOrderDetailsListModel

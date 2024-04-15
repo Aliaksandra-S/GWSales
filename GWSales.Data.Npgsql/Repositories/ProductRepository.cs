@@ -40,7 +40,6 @@ public class ProductRepository : IProductRepository
             ProductName = x.ProductName,
             WholesalePrice = x.WholesalePrice,
             RetailPrice = x.RetailPrice,
-            UnitsInStock = x.UnitsInStock,
         }).ToListAsync();
 
         return new GetProductListModel
@@ -65,7 +64,6 @@ public class ProductRepository : IProductRepository
             ProductName = entity.ProductName,
             WholesalePrice = entity.WholesalePrice,
             RetailPrice = entity.RetailPrice,
-            UnitsInStock = entity.UnitsInStock,
         };
     }
 

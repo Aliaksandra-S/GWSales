@@ -22,7 +22,7 @@ public class DiscountService : IDiscountService
     {
         var result = new CommandResult<ResultType, GetDiscountDto>();
 
-        if (discountDto.DiscountPercentage <= 0)
+        if (discountDto.DiscountRate <= 0)
         {
             result.ResultType = ResultType.ValidationError;
             result.Messages?.Add("Discount percentage can't be 0 or less than 0");
@@ -119,7 +119,7 @@ public class DiscountService : IDiscountService
     {
         var result = new CommandResult<ResultType, UpdateDiscountDto>();
 
-        if (discountDto.DiscountPercentage <= 0)
+        if (discountDto.DiscountRate <= 0)
         {
             result.ResultType = ResultType.ValidationError;
             result.Messages?.Add("Discount percentage can't be 0 or less than 0");
