@@ -26,4 +26,4 @@ dotnet ef migrations add "<migration name>"
 dotnet ef migrations bundle --output migration-tool.exe
 migration-tool.exe --connection "<connection string>"
 ```
-
+3. Run WebApi project and open ```https://localhost:7151/swagger``` :)
