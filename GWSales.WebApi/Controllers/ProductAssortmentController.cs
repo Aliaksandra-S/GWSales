@@ -11,12 +11,10 @@ namespace GWSales.WebApi.Controllers;
 [Route("api/[controller]")]
 public class ProductAssortmentController : ControllerBase
 {
-    private readonly ILogger<ProductAssortmentController> _logger;
     private readonly IProductService _productService;
 
-    public ProductAssortmentController(ILogger<ProductAssortmentController> logger, IProductService productService)
+    public ProductAssortmentController(IProductService productService)
     {
-        _logger = logger;
         _productService = productService;
     }
 
@@ -59,4 +57,6 @@ public class ProductAssortmentController : ControllerBase
         var result = await _productService.GetAllProductsAsync();
         return Ok(result);
     }
+
+
 }

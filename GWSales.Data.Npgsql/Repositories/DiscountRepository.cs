@@ -15,7 +15,6 @@ public class DiscountRepository : IDiscountRepository
         _context = context;
     }
 
-    
     public async Task<DiscountProgramEntity?> CreateDiscountAsync(CreateDiscountModel discountModel)
     {
         var entity = new DiscountProgramEntity
@@ -61,8 +60,6 @@ public class DiscountRepository : IDiscountRepository
             {
                 CustomerId = x.CustomerId,
                 Name = x.Name,
-                //CustomerTypeId = x.CustomerTypeId,
-                //TypeName = x.CustomerType.TypeName,
             }).ToArray();
 
         return new GetDiscountWithCustomersModel

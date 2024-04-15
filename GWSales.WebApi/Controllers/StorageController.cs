@@ -11,12 +11,10 @@ namespace GWSales.WebApi.Controllers;
 [Route("api/[controller]")]
 public class StorageController : ControllerBase
 {
-    private readonly ILogger<StorageController> _logger;
     private readonly IStorageService _storageService;
 
-    public StorageController(ILogger<StorageController> logger, IStorageService storageService)
+    public StorageController(IStorageService storageService)
     {
-        _logger = logger;
         _storageService = storageService;
     }
 

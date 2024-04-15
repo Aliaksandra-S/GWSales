@@ -2,5 +2,5 @@
 
 public class GetProductPriceListModel
 {
-    public List<GetProductPriceModel> Prices { get; set; }
+    public List<GetProductPriceModel> Prices { get; set; } = new List<GetProductPriceModel>();
 }

@@ -114,7 +114,7 @@ public class OrderService : IOrderService
 
         var discount = await _discountRepository.GetCurrentCustomerDiscountAsync(customer.CustomerId);
         
-        var discountRate = (discount != null && discount.EndDate <= createDto.OrderDate)
+        var discountRate = (discount != null && discount.EndDate >= createDto.OrderDate)
             ? discount.DiscountRate
             : 0m;
 
@@ -147,7 +147,7 @@ public class OrderService : IOrderService
             CustomerId = customer.CustomerId,
             OrderDate = createDto.OrderDate,
             OrderStatus = (int)OrderStatus.Created,
-            TotalAmount = totalAmount * discountRate,
+            TotalAmount = totalAmount - (discountRate * 0.01m * totalAmount),
             CreatedAtUtc = DateTime.UtcNow,
 
             Details = new CreateOrderDetailsListModel

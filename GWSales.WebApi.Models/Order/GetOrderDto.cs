@@ -7,7 +7,6 @@ public class GetOrderDto
 {
     public int OrderId { get; set; }
     public int CustomerId { get; set; }
-    public int CustomerTypeId { get; set; }
     public DateOnly OrderDate { get; set; }
     public decimal TotalAmount { get; set; }
 

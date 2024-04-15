@@ -38,7 +38,9 @@ public class MappingProfile : Profile
         CreateMap<SizeEntity, GetSizeDto>();
 
         CreateMap<ProductSizeEntity, GetProductSizeFullDto>();
-        
+
+        CreateMap<ProductSizeEntity, GetProductSizeShortDto>();
+
         CreateMap<CreateSizeDto, CreateSizeModel>();
 
         CreateMap<AddProductSizeDto, AddProductSizeModel>();
@@ -83,6 +85,8 @@ public class MappingProfile : Profile
         CreateMap<CreateOrderDetailsListDto, CreateOrderDetailsListModel>();
 
         CreateMap<GetOrderModel, GetOrderDto>();
+
+        CreateMap<GetOrderListModel, GetOrderListDto>();
 
         CreateMap<GetOrderDetailsModel, GetOrderDetailsDto>();
 

@@ -66,7 +66,6 @@ public class DiscountService : IDiscountService
         {
             result.ResultType = ResultType.NotFound;
             result.Messages?.Add("Customer doesn't exist or customer doesn't have any discount");
-            // todo не должно быть Или (возвращать результат из репозитория?)
 
             return result;
         }

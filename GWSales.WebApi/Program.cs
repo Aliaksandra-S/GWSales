@@ -6,6 +6,7 @@ using GWSales.Data.Repositories;
 using GWSales.Services;
 using GWSales.Services.Interfaces;
 using GWSales.Services.Maps;
+using GWSales.WebApi;
 using GWSales.WebApi.Extensions;
 using GWSales.WebApi.JsonConverter;
 using GWSales.WebApi.Middlewares;
@@ -22,11 +23,15 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 configuration.AddJsonFile("appsettings.personal.json", false);
 
-// Add services to the container.
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Services.AddControllers().AddJsonOptions(x =>
+builder.Services.AddControllers(c =>
 {
+    c.Filters.Add(new JsonConvertActionFilter());
+})
+    .AddJsonOptions(x =>
+{
+    x.AllowInputFormatterExceptionMessages = false;
     x.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
     x.JsonSerializerOptions.Converters.Add(new NullableDateOnlyJsonConverter());
 });
@@ -71,6 +76,7 @@ builder.Services.AddDbContext<SalesDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
     options.EnableSensitiveDataLogging();
 });
+
 
 builder.Services.AddIdentity<UserEntity, IdentityRole>()
     .AddEntityFrameworkStores<SalesDbContext>()
@@ -117,8 +123,6 @@ var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName !
 var app = builder.Build();
 app.Services.ValidateDependencies(builder.Services, assemblies);
 
-// Configure the HTTP request pipeline.
-
 app.UseMiddleware<HundleDateOnlyConvertExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
@@ -128,6 +132,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors(builder =>
+{
+    builder
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .WithOrigins("http://localhost:7151");
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

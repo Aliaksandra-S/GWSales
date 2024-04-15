@@ -28,7 +28,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost]
-    [Route("login")]
+    [Route("Login")]
     public async Task<IActionResult> Login([FromBody] LoginUserDto loginDto)
     {
         var result = await _userService.LoginUserAsync(loginDto);
@@ -58,18 +58,26 @@ public class AuthController : ControllerBase
 
             var token = GetToken(authClaims);
 
-            return Ok(new
+            var resultValue = new CommandResult<ResultType, GetTokenDto>()
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
-            });
+                ResultType = ResultType.Success,
+                Value = new GetTokenDto
+                {
+                    Username = result.Value.Username,
+                    Roles = result.Value.Roles,
+                    Token = new JwtSecurityTokenHandler().WriteToken(token),
+                    Expiration = token.ValidTo,
+                },
+            };
+
+            return Ok(resultValue);
         }
         
         return Unauthorized();
     }
 
     [HttpPost]
-    [Route("register")]
+    [Route("Register")]
     public async Task<IActionResult> Register([FromBody] RegisterUserDto registerDto)
     {
         var result = await _userService.RegisterUserAsync(registerDto);
@@ -83,7 +91,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost]
-    [Route("register-admin")]
+    [Route("RegisterAdmin")]
     public async Task<IActionResult> RegisterAdmin([FromBody] RegisterUserDto registerDto)
     {
         if (!_configuration.GetValue<bool>("Features:EnableAdminRegistration"))
@@ -103,7 +111,7 @@ public class AuthController : ControllerBase
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    [Route("confirm-user")]
+    [Route("ConfirmUser")]
     public async Task<IActionResult> ConfirmUserByAdmin([FromBody] ConfirmUserDto confirmDto)
     {
         var result = await _userService.ConfirmUserByAdminAsync(confirmDto);
@@ -118,7 +126,7 @@ public class AuthController : ControllerBase
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    [Route("get-users-for-confirm")]
+    [Route("GetUsersForConfirm")]
     public async Task<IActionResult> GetUsersWithoutConfirmation()
     {
         var result = await _userService.GetUsersWithoutConfirmationAsync();

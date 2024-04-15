@@ -15,28 +15,32 @@ public class OrderRepository : IOrderRepository
     }
     public async Task<GetOrderModel?> CreateOrderAsync(CreateOrderModel createModel)
     {
-        var customerEntity = await _context.Customers.FindAsync(createModel.CustomerId);
-        if (customerEntity == null)
+        var orderEntity = await _context.Customers
+            .Where(x => x.CustomerId == createModel.CustomerId)
+            .Join(_context.CustomerTypes,
+            outer => outer.CustomerTypeId,
+            inner => inner.CustomerTypeId,
+            (outer, inner) => new OrderEntity
+            {
+                CustomerId = outer.CustomerId,
+                CustomerTypeId = inner.CustomerTypeId,
+                OrderDate = createModel.OrderDate,
+                OrderStatus = createModel.OrderStatus,
+                TotalAmount = createModel.TotalAmount,
+                CreatedAtUtc = createModel.CreatedAtUtc,
+
+                Customer = outer,
+                CustomerType = inner,
+            }).FirstOrDefaultAsync();
+
+        if (orderEntity == null)
         {
             return null;
         }
 
-        var orderEntity = new OrderEntity
-        {
-            CustomerId = customerEntity.CustomerId,
-            CustomerTypeId = customerEntity.CustomerType.CustomerTypeId,
-            OrderDate = createModel.OrderDate,
-            OrderStatus = createModel.OrderStatus,
-            TotalAmount = createModel.TotalAmount,
-            CreatedAtUtc = createModel.CreatedAtUtc,
-            
-            Customer = customerEntity,
-            CustomerType = customerEntity.CustomerType,
-        };
-
         var createdOrder = await _context.Orders.AddAsync(orderEntity);
 
-        var detailsList = createModel.Details.Details.Select(x => new OrderDetailsEntity
+        var detailsArray = createModel.Details.Details.Select(x => new OrderDetailsEntity
         {
             OrderId = createdOrder.Entity.OrderId,
             ProductSizeId = x.ProductSizeId,
@@ -46,7 +50,9 @@ public class OrderRepository : IOrderRepository
             Comment = x.Comment,
 
             Order = createdOrder.Entity,
-        });
+        }).ToArray();
+
+        await _context.OrderDetails.AddRangeAsync(detailsArray);
 
         await _context.SaveChangesAsync();
 
@@ -70,6 +76,7 @@ public class OrderRepository : IOrderRepository
             CustomerId = x.CustomerId,
             OrderDate = x.OrderDate,
             OrderStatus = x.OrderStatus,
+            TotalAmount = x.TotalAmount,
             CreatedAtUtc = x.CreatedAtUtc,
         }).ToListAsync();
 
@@ -81,37 +88,33 @@ public class OrderRepository : IOrderRepository
 
     public async Task<GetOrderListModel> GetAllOrdersWithDetailsAsync()
     {
-        //todo сомнительно, проверить
-        var orderList = await _context.Orders
-            .GroupJoin(_context.OrderDetails,
-            o => o.OrderId,
-            d => d.OrderId,
-            (o, ds) => new GetOrderModel
+        var ordersWithDetails = await _context.Orders
+            .Include(order => order.OrderDetails)
+            .Select(order => new GetOrderModel
             {
-                OrderId = o.OrderId,
-                CustomerId = o.CustomerId,
-                OrderDate = o.OrderDate,
-                OrderStatus = o.OrderStatus,
-                CreatedAtUtc = o.CreatedAtUtc,
-
+                OrderId = order.OrderId,
+                CustomerId = order.CustomerId,
+                OrderStatus = order.OrderStatus,
+                OrderDate = order.OrderDate,
+                TotalAmount = order.TotalAmount,
+                CreatedAtUtc = order.CreatedAtUtc,
                 Details = new GetOrderDetailsListModel
                 {
-                    Details = ds.Select(x => new GetOrderDetailsModel
+                    Details = order.OrderDetails.Select(detail => new GetOrderDetailsModel
                     {
-                        OrderDetailsId = x.OrderDetailsId,
-                        OrderId = x.OrderId,
-                        ProductSizeId = x.ProductSizeId,
-                        Quantity = x.Quantity,
-                        SubtotalAmount = x.SubtotalAmount,
-                        AppliedDiscountRate = x.AppliedDiscountRate,
-                        Comment = x.Comment,
+                        OrderDetailsId = detail.OrderId,
+                        ProductSizeId = detail.ProductSizeId,
+                        Quantity = detail.Quantity,
+                        SubtotalAmount = detail.SubtotalAmount,
+                        AppliedDiscountRate = detail.AppliedDiscountRate,
+                        Comment = detail.Comment,
                     }).ToList(),
                 }
             }).ToListAsync();
 
         return new GetOrderListModel
         {
-            Orders = orderList
+            Orders = ordersWithDetails,
         };
     }
 
@@ -138,7 +141,6 @@ public class OrderRepository : IOrderRepository
 
     public async Task<GetOrderListModel> GetOrdersByProductsAsync(params int[] productIdArray)
     {
-        //todo try
         var ordersWithDetails = await _context.Orders
             .Include(order => order.OrderDetails)
             .ThenInclude(orderDetail => orderDetail.ProductSize)
@@ -148,11 +150,14 @@ public class OrderRepository : IOrderRepository
                 OrderId = order.OrderId,
                 CustomerId = order.CustomerId,
                 OrderStatus = order.OrderStatus,
+                OrderDate = order.OrderDate,
+                TotalAmount = order.TotalAmount,
                 CreatedAtUtc = order.CreatedAtUtc,
                 Details = new GetOrderDetailsListModel
                 {
                     Details = order.OrderDetails.Select(detail => new GetOrderDetailsModel
                     {
+                        OrderDetailsId = detail.OrderId,
                         ProductSizeId = detail.ProductSizeId,
                         Quantity = detail.Quantity,
                         SubtotalAmount = detail.SubtotalAmount,
@@ -178,11 +183,14 @@ public class OrderRepository : IOrderRepository
                 OrderId = order.OrderId,
                 CustomerId = order.CustomerId,
                 OrderStatus = order.OrderStatus,
+                OrderDate = order.OrderDate,
+                TotalAmount = order.TotalAmount,
                 CreatedAtUtc = order.CreatedAtUtc,
                 Details = new GetOrderDetailsListModel
                 {
                     Details = order.OrderDetails.Select(detail => new GetOrderDetailsModel
                     {
+                        OrderDetailsId = detail.OrderId,
                         ProductSizeId = detail.ProductSizeId,
                         Quantity = detail.Quantity,
                         SubtotalAmount = detail.SubtotalAmount,
@@ -208,11 +216,14 @@ public class OrderRepository : IOrderRepository
                 OrderId = order.OrderId,
                 CustomerId = order.CustomerId,
                 OrderStatus = order.OrderStatus,
+                OrderDate = order.OrderDate,
+                TotalAmount = order.TotalAmount,
                 CreatedAtUtc = order.CreatedAtUtc,
                 Details = new GetOrderDetailsListModel
                 {
                     Details = order.OrderDetails.Select(detail => new GetOrderDetailsModel
                     {
+                        OrderDetailsId = detail.OrderId,
                         ProductSizeId = detail.ProductSizeId,
                         Quantity = detail.Quantity,
                         SubtotalAmount = detail.SubtotalAmount,

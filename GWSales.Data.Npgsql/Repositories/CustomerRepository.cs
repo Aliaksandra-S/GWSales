@@ -14,10 +14,18 @@ public class CustomerRepository : ICustomerRepository
     }
     public async Task<CustomerEntity?> CreateCustomerAsync(CreateCustomerModel model)
     {
+        var customerType = await _context.CustomerTypes.FindAsync(model.CustomerTypeId);
+        if (customerType == null)
+        {
+            return null;
+        }
+
         var entity = new CustomerEntity
         {
             Name = model.Name,
-            CustomerTypeId = model.CustomerTypeId,
+            CustomerTypeId = customerType.CustomerTypeId,
+            
+            CustomerType = customerType,
         };
 
         var resultEntity = await _context.Customers.AddAsync(entity);
@@ -50,11 +58,6 @@ public class CustomerRepository : ICustomerRepository
                 CustomerTypeId = inner.CustomerTypeId,
                 TypeName = inner.TypeName,
             }).ToArrayAsync();
-
-        //if (customersWithTypes == null)
-        //{
-        //    return null;
-        //}
 
         return new GetCustomerListModel
         {

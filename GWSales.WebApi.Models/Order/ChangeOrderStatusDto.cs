@@ -7,6 +7,6 @@ public class ChangeOrderStatusDto
 {
     public int OrderId { get; set; }
 
-    //[JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public OrderStatus OrderStatus { get; set; }
 }
